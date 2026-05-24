@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projeto Grace Hopper - PRD Portal</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        :root {
+            --color-primary: #D4A373;
+            --color-primary-dark: #BA7517;
+            --color-dark: #2C2C2A;
+            --color-light: #F5F3F0;
+            --color-bg-sec: #E8E5E0;
+            --color-accent: #7B5B3F;
+            --color-muted: #8B8B87;
+            --color-text: #3D3D3A;
+            --color-border: #D3D1C7;
+            --color-info: #185FA5;
+            --color-success: #3B6D11;
+            --color-warning: #BA7517;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --color-dark: #E8E5E0;
+                --color-light: #1A1A18;
+                --color-bg-sec: #2C2C2A;
+                --color-accent: #C9B5A0;
+                --color-muted: #7B7B77;
+                --color-text: #C2C0B6;
+                --color-border: #3D3D3A;
+                --color-info: #B5D4F4;
+                --color-success: #97C459;
+                --color-warning: #FAC775;
+            }
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif;
+            background: var(--color-light);
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+        .container { display: flex; min-height: 100vh; }
+        .sidebar {
+            width: 260px;
+            background: var(--color-bg-sec);
+            border-right: 1px solid var(--color-border);
+            padding: 0;
+            position: sticky;
+            top: 0;
+            max-height: 100vh;
+            overflow-y: auto;
+        }
+        .sidebar-header { padding: 24px 16px; border-bottom: 1px solid var(--color-border); }
+        .sidebar-logo { font-size: 18px; font-weight: 600; color: var(--color-primary-dark); letter-spacing: -0.5px; }
+        .sidebar-tagline { font-size: 11px; color: var(--color-muted); text-transform: uppercase; margin-top: 4px; letter-spacing: 0.5px; }
+        .nav-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+            transition: all 0.2s;
+            font-size: 13px;
+            color: var(--color-muted);
+            font-weight: 500;
+        }
+        .nav-item:hover { background: var(--color-primary); color: white; }
+        .nav-item.active { border-left-color: var(--color-primary); background: var(--color-primary); color: white; }
+        .nav-header {
+            padding: 16px 16px 8px;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--color-muted);
+            font-weight: 700;
+        }
+        .content { flex: 1; padding: 48px; overflow-y: auto; max-height: 100vh; }
+        .section { display: none; }
+        .section.active { display: block; animation: fadeIn 0.3s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+        .section-title { font-size: 36px; font-weight: 300; margin-bottom: 8px; color: var(--color-dark); letter-spacing: -0.5px; }
+        .section-subtitle { font-size: 13px; color: var(--color-muted); margin-bottom: 32px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .intro-text { font-size: 14px; color: var(--color-muted); margin-bottom: 24px; line-height: 1.8; max-width: 680px; }
+        .card-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin: 32px 0; }
+        .card-grid.single { grid-template-columns: 1fr; }
+        .card { background: var(--color-light); border: 1px solid var(--color-border); border-radius: 8px; padding: 24px; transition: all 0.2s; }
+        .card:hover { transform: translateY(-2px); border-color: var(--color-primary); }
+        .card-title { font-size: 15px; font-weight: 600; margin-bottom: 12px; color: var(--color-dark); }
+        .card-content { font-size: 13px; color: var(--color-text); line-height: 1.7; }
+        .badge { display: inline-block; background: var(--color-primary); color: white; padding: 4px 10px; border-radius: 4px; font-size: 11px; margin-right: 6px; margin-bottom: 6px; font-weight: 500; }
+        .feature-list { list-style: none; margin: 12px 0; }
+        .feature-list li { padding: 8px 0; font-size: 13px; color: var(--color-text); border-bottom: 0.5px solid var(--color-border); display: flex; align-items: center; }
+        .feature-list li:last-child { border-bottom: none; }
+        .feature-list li:before { content: "✓"; color: var(--color-primary); font-weight: bold; margin-right: 8px; font-size: 14px; }
+        .section-divider { height: 1px; background: var(--color-border); margin: 40px 0; }
+        h3 { font-size: 16px; margin: 24px 0 16px; font-weight: 600; color: var(--color-dark); }
+        p { margin-bottom: 12px; }
+        strong { font-weight: 600; color: var(--color-dark); }
+        @media (max-width: 1024px) { .card-grid { grid-template-columns: 1fr; } .sidebar { width: 200px; } .content { padding: 32px; } }
+        @media (max-width: 768px) { .container { flex-direction: column; } .sidebar { width: 100%; max-height: auto; display: flex; overflow-x: auto; border-right: none; border-bottom: 1px solid var(--color-border); } .sidebar-header { display: none; } .nav-item, .nav-header { white-space: nowrap; } .content { padding: 24px; } .section-title { font-size: 28px; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">Grace Hopper</div>
+                <div class="sidebar-tagline">AI-First Interview Prep</div>
+            </div>
+
+            <div class="nav-header">Produto</div>
+            <div class="nav-item active" onclick="switchSection('overview')">📋 Overview</div>
+            <div class="nav-item" onclick="switchSection('features')">✨ Features</div>
+            <div class="nav-item" onclick="switchSection('experience')">🎯 Experiência</div>
+            <div class="nav-item" onclick="switchSection('design')">🎨 Design</div>
+
+            <div class="nav-header">Técnico</div>
+            <div class="nav-item" onclick="switchSection('tech')">⚙️ Tech Stack</div>
+
+            <div class="nav-header">Execução</div>
+            <div class="nav-item" onclick="switchSection('roadmap')">🗺️ Roadmap</div>
+            <div class="nav-item" onclick="switchSection('success')">🎯 Sucesso</div>
+        </div>
+
+        <div class="content">
+            <!-- Overview -->
+            <div class="section active" id="overview">
+                <div class="section-title">Projeto Grace Hopper</div>
+                <div class="section-subtitle">Plataforma AI-first de preparação para entrevistas por voz</div>
+
+                <p class="intro-text">
+                    Grace Hopper é uma plataforma inovadora que ajuda estudantes e profissionais iniciantes a praticarem entrevistas de forma realista. Utilizando IA conversacional, speech-to-text e feedback inteligente em tempo real, criamos uma experiência moderna, humanizada e acessível.
+                </p>
+
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-title">🎯 Missão</div>
+                        <div class="card-content">
+                            Tornar preparação para entrevistas acessível, humana e contínua através de IA conversacional avançada.
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">🚀 Visão</div>
+                        <div class="card-content">
+                            Evoluir para uma plataforma completa de desenvolvimento profissional baseada em comunicação e performance.
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Público-Alvo</h3>
+                <div class="card-grid single">
+                    <div class="card">
+                        <ul class="feature-list">
+                            <li>Estudantes de tecnologia e áreas relacionadas</li>
+                            <li>Pessoas buscando primeira oportunidade profissional</li>
+                            <li>Profissionais juniores em transição</li>
+                            <li>Usuários com ansiedade em entrevistas</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Core Experience - O Momento WOW</h3>
+                <p class="intro-text">
+                    O usuário responde uma pergunta por voz, fala naturalmente, e <strong>instantaneamente</strong> recebe uma análise visual e técnica de sua resposta com feedback claro, humano e acionável.
+                </p>
+            </div>
+
+            <!-- Features -->
+            <div class="section" id="features">
+                <div class="section-title">Funcionalidades</div>
+                <div class="section-subtitle">MVP e Roadmap</div>
+
+                <h3>MVP - Phase 1</h3>
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-title">🔐 Autenticação</div>
+                        <div class="card-content">Login com Google, acesso rápido e seguro.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">📱 Dashboard</div>
+                        <div class="card-content">Histórico de entrevistas e progresso do usuário.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">🎤 Entrevistas por Voz</div>
+                        <div class="card-content">Prática com perguntas automáticas e customizadas.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">🧠 Feedback IA</div>
+                        <div class="card-content">Análise instantânea de comunicação e confiança.</div>
+                    </div>
+                </div>
+
+                <h3>Future Features</h3>
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-title">🎮 Gamificação</div>
+                        <div class="card-content">Pontos, badges e rankings para engajamento.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">👔 AI Recruiter</div>
+                        <div class="card-content">Recrutador conversacional que simula entrevistas reais.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">🔊 Voz da IA</div>
+                        <div class="card-content">Síntese de voz natural para feedback.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">📱 Mobile App</div>
+                        <div class="card-content">Aplicativos iOS e Android nativos.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Experience -->
+            <div class="section" id="experience">
+                <div class="section-title">User Experience</div>
+                <div class="section-subtitle">Jornada do Usuário</div>
+
+                <h3>Princípios de Design</h3>
+                <div class="card-grid single">
+                    <div class="card">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                            <span class="badge">AI-first</span>
+                            <span class="badge">Mobile-first</span>
+                            <span class="badge">Minimal friction</span>
+                            <span class="badge">Conversational</span>
+                            <span class="badge">Fast dopamine</span>
+                            <span class="badge">Human-centered</span>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Branding</h3>
+                <div class="card-grid single">
+                    <div class="card">
+                        <div class="card-content">
+                            <strong>Mindful Minimalism:</strong> Uma marca moderna, calma, humana e acolhedora. Menos startup agressiva, mais sensação de progresso gentil.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Design -->
+            <div class="section" id="design">
+                <div class="section-title">Design & UX</div>
+                <div class="section-subtitle">Sistema de Design</div>
+
+                <h3>Design System</h3>
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-title">Tipografia</div>
+                        <div class="card-content">Sans-serif moderna para máxima legibilidade e design system consistente.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Cores</div>
+                        <div class="card-content"><strong>Warm Amber</strong> (#D4A373) como primária + tons neutros.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Espaçamento</div>
+                        <div class="card-content">Grid flexível com espaçamento amplo para respiração visual.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Componentes</div>
+                        <div class="card-content">Rounded corners suaves, sombras leves, estética humanizada.</div>
+                    </div>
+                </div>
+
+                <h3>Requisitos UX</h3>
+                <div class="card-grid single">
+                    <div class="card">
+                        <ul class="feature-list">
+                            <li>Design minimalista e elegante</li>
+                            <li>Motion suave e intencional</li>
+                            <li>Estética cinematográfica humanizada</li>
+                            <li>Acessibilidade WCAG 2.1 AA</li>
+                            <li>Responsive em todos dispositivos</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tech Stack -->
+            <div class="section" id="tech">
+                <div class="section-title">Tech Stack</div>
+                <div class="section-subtitle">Arquitetura Técnica</div>
+
+                <h3>Frontend Layer</h3>
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-title">Next.js 14+</div>
+                        <div class="card-content">SSR/SSG, otimização automática, API routes, deploy em Vercel.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Tailwind CSS</div>
+                        <div class="card-content">Utility-first, design system, responsive automático.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">shadcn/ui</div>
+                        <div class="card-content">Components de alta qualidade, acessível, customizável.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">TypeScript</div>
+                        <div class="card-content">Type safety, strict mode, menos bugs em produção.</div>
+                    </div>
+                </div>
+
+                <h3>Backend & IA</h3>
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-title">FastAPI</div>
+                        <div class="card-content">Framework Python async-first, performance excelente, auto-docs OpenAPI.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Google Gemini API</div>
+                        <div class="card-content">LLM para análise, latência baixa (200-500ms), preço competitivo.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Speech-to-Text</div>
+                        <div class="card-content">Google Cloud STT, 95%+ accuracy, multilíngue (PT/EN).</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Web Audio API</div>
+                        <div class="card-content">Captura de áudio real-time, suporte multiplataforma.</div>
+                    </div>
+                </div>
+
+                <h3>Data & Deployment</h3>
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-title">Supabase</div>
+                        <div class="card-content">PostgreSQL managed, Auth, Real-time sync, RLS security.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Vercel</div>
+                        <div class="card-content">Deploy frontend, edge functions, analytics integrado.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Render</div>
+                        <div class="card-content">Deploy backend, auto-scaling, ambiente managed.</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">GitHub Actions</div>
+                        <div class="card-content">CI/CD automático, testes, deploy pipeline.</div>
+                    </div>
+                </div>
+
+                <h3>Performance Targets</h3>
+                <div class="card-grid single">
+                    <div class="card">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; text-align: center;">
+                            <div><div style="font-size: 24px; font-weight: 600; color: var(--color-primary);">< 3s</div><div style="font-size: 12px; color: var(--color-muted); margin-top: 4px;">IA Feedback</div></div>
+                            <div><div style="font-size: 24px; font-weight: 600; color: var(--color-primary);">< 500ms</div><div style="font-size: 12px; color: var(--color-muted); margin-top: 4px;">Speech-to-Text</div></div>
+                            <div><div style="font-size: 24px; font-weight: 600; color: var(--color-primary);">< 2s</div><div style="font-size: 12px; color: var(--color-muted); margin-top: 4px;">Page Load</div></div>
+                            <div><div style="font-size: 24px; font-weight: 600; color: var(--color-primary);">99.9%</div><div style="font-size: 12px; color: var(--color-muted); margin-top: 4px;">Uptime</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Roadmap -->
+            <div class="section" id="roadmap">
+                <div class="section-title">Roadmap</div>
+                <div class="section-subtitle">Evolução do Produto</div>
+
+                <h3>MVP - Agora</h3>
+                <div class="card-grid single">
+                    <div class="card">
+                        <div class="card-content" style="margin-bottom: 16px;"><strong>Objetivo:</strong> MVP funcional com features essenciais.</div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                            <span class="badge">Google Auth</span>
+                            <span class="badge">Voice Recording</span>
+                            <span class="badge">Speech-to-Text</span>
+                            <span class="badge">AI Feedback</span>
+                            <span class="badge">Dashboard</span>
+                            <span class="badge">History</span>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>V2 - Q2 2026</h3>
+                <div class="card-grid single">
+                    <div class="card">
+                        <div class="card-content" style="margin-bottom: 16px;"><strong>Objetivo:</strong> Aumentar engajamento com gamificação e recruiter persona.</div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                            <span class="badge">Gamification</span>
+                            <span class="badge">Points & Badges</span>
+                            <span class="badge">AI Recruiter</span>
+                            <span class="badge">Text-to-Speech</span>
+                            <span class="badge">Emotional Radar</span>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>V3 - Q4 2026</h3>
+                <div class="card-grid single">
+                    <div class="card">
+                        <div class="card-content" style="margin-bottom: 16px;"><strong>Objetivo:</strong> Expandir para mobile e comunidade.</div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                            <span class="badge">iOS App</span>
+                            <span class="badge">Android App</span>
+                            <span class="badge">Community</span>
+                            <span class="badge">Rankings</span>
+                            <span class="badge">Mentorship</span>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Vision 2027+</h3>
+                <div class="card-grid single">
+                    <div class="card">
+                        <div class="card-content">
+                            Plataforma de desenvolvimento profissional completa com análise de carreira, recomendações de oportunidades, integração com recrutadores reais.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success -->
+            <div class="section" id="success">
+                <div class="section-title">Critérios de Sucesso</div>
+                <div class="section-subtitle">Métricas e Definition of Done</div>
+
+                <h3>Sucesso do Produto</h3>
+                <div class="card-grid single">
+                    <div class="card">
+                        <ul class="feature-list">
+                            <li>Alta retenção de usuários (> 30% 30-day)</li>
+                            <li>Uso recorrente semanal consistente</li>
+                            <li>Compartilhamento orgânico entre usuários</li>
+                            <li>Evolução contínua de notas de usuários</li>
+                            <li>Net Promoter Score (NPS) > 40</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Métricas (Primeiro Mês)</h3>
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-title">Usuários</div>
+                        <div style="margin-top: 12px; font-size: 13px;">
+                            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 0.5px solid var(--color-border);">
+                                <span>Signups</span>
+                                <strong style="color: var(--color-primary);">500+</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 0.5px solid var(--color-border);">
+                                <span>1ª Entrevista</span>
+                                <strong style="color: var(--color-primary);">200+</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 8px 0;">
+                                <span>DAU</span>
+                                <strong style="color: var(--color-primary);">50+</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">Engajamento</div>
+                        <div style="margin-top: 12px; font-size: 13px;">
+                            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 0.5px solid var(--color-border);">
+                                <span>Conclusão</span>
+                                <strong style="color: var(--color-success);">60%+</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 0.5px solid var(--color-border);">
+                                <span>Score Médio</span>
+                                <strong style="color: var(--color-success);">65-75</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 8px 0;">
+                                <span>Session Time</span>
+                                <strong style="color: var(--color-success);">10+ min</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">Técnico</div>
+                        <div style="margin-top: 12px; font-size: 13px;">
+                            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 0.5px solid var(--color-border);">
+                                <span>Uptime</span>
+                                <strong style="color: var(--color-warning);">99.9%+</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 0.5px solid var(--color-border);">
+                                <span>Error Rate</span>
+                                <strong style="color: var(--color-warning);">< 0.1%</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 8px 0;">
+                                <span>Custo/Usuário</span>
+                                <strong style="color: var(--color-warning);">$0.50</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">Negócio</div>
+                        <div style="margin-top: 12px; font-size: 13px;">
+                            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 0.5px solid var(--color-border);">
+                                <span>MOM Growth</span>
+                                <strong style="color: var(--color-info);">20-30%</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 0.5px solid var(--color-border);">
+                                <span>Referral Rate</span>
+                                <strong style="color: var(--color-info);">5%+</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; padding: 8px 0;">
+                                <span>CAC</span>
+                                <strong style="color: var(--color-info);">< $5</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Definition of Done</h3>
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-title">Qualidade</div>
+                        <ul class="feature-list">
+                            <li>QA completo e aprovado</li>
+                            <li>Code review realizado</li>
+                            <li>Testes > 80% coverage</li>
+                            <li>Sem technical debt</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">UX</div>
+                        <ul class="feature-list">
+                            <li>Responsivo em todos</li>
+                            <li>Acessibilidade WCAG AA</li>
+                            <li>Fluxo intuitivo</li>
+                            <li>Performance ótima</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Operacional</div>
+                        <ul class="feature-list">
+                            <li>Deploy funcionando</li>
+                            <li>Rollback plan</li>
+                            <li>Monitoring ativo</li>
+                            <li>Docs atualizada</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Monetização</div>
+                        <ul class="feature-list">
+                            <li>MVP: 100% Free</li>
+                            <li>V2: Freemium</li>
+                            <li>V3+: B2B/Enterprise</li>
+                            <li>Sem paywall inicial</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchSection(sectionId) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(s => s.classList.remove('active'));
+            
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(n => n.classList.remove('active'));
+            
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.classList.add('active');
+                document.querySelector('.content').scrollTop = 0;
+            }
+            
+            event.target.classList.add('active');
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown') {
+                const navItems = Array.from(document.querySelectorAll('.nav-item'));
+                const activeItem = document.querySelector('.nav-item.active');
+                const currentIndex = navItems.indexOf(activeItem);
+                if (currentIndex < navItems.length - 1) {
+                    navItems[currentIndex + 1].click();
+                }
+            } else if (e.key === 'ArrowUp') {
+                const navItems = Array.from(document.querySelectorAll('.nav-item'));
+                const activeItem = document.querySelector('.nav-item.active');
+                const currentIndex = navItems.indexOf(activeItem);
+                if (currentIndex > 0) {
+                    navItems[currentIndex - 1].click();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
