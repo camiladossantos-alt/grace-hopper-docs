@@ -1,6 +1,5 @@
 
-Project Grace Hopper is an AI-first voice interview preparation platform that helps students and entry-level professionals practice asking real questions and receive immediate feedback on communication, clarity, confidence, and technical performance.
-[README.md](https://github.com/user-attachments/files/28201382/README.md)
+
 <div align="center">
 
 # Grace Hopper
@@ -17,7 +16,7 @@ Project Grace Hopper is an AI-first voice interview preparation platform that he
 
 ---
 
-## 🎯 What is Grace Hopper?
+##  What is Grace Hopper?
 
 **Grace Hopper** is an AI-powered platform that helps students, junior professionals, and first-time job seekers practice interviews in a realistic way and receive instant, actionable feedback.
 
@@ -198,7 +197,7 @@ Suggested Answer:
 
 ---
 
-## 💰 Pricing
+## Pricing
 
 ### Current (MVP)
 **100% Free** - No limits, no paywalls
@@ -295,9 +294,7 @@ With the condition that you include the license and copyright notice.
 ## 🔐 Privacy & Security
 
 - **LGPD Compliant** - Your data is private
-- **End-to-End Encrypted** - Secure communication
 - **No Third-party Tracking** - Your privacy matters
-- **Open Security Policy** - Report vulnerabilities to security@gracehopper.dev
 
 See [PRIVACY.md](PRIVACY.md) and [SECURITY.md](SECURITY.md) for details.
 
