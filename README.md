@@ -227,8 +227,6 @@ Complete documentation available in the [Grace Hopper Docs Portal](https://your-
 - **Questions?** Open a [GitHub Issue](https://github.com/your-org/grace-hopper/issues)
 - **Found a bug?** [Report it here](https://github.com/your-org/grace-hopper/issues/new)
 - **Feature request?** [Suggest it](https://github.com/your-org/grace-hopper/issues/new)
-- **Email:** support@gracehopper.dev
-- **Discord:** [Join our community](https://discord.gg/grace-hopper)
 
 ### For Developers
 - **Documentation:** See [CONTRIBUTING.md](CONTRIBUTING.md)
@@ -236,19 +234,18 @@ Complete documentation available in the [Grace Hopper Docs Portal](https://your-
 - **Issues:** Help with [good first issues](https://github.com/your-org/grace-hopper/issues?q=label:"good+first+issue")
 
 ### For Businesses
-- **Partnerships:** partnerships@gracehopper.dev
-- **Enterprise:** enterprise@gracehopper.dev
-- **Website:** gracehopper.dev
+- **Partnerships:** camila.dos.santos.contact@gmail.com
+- **Website:** camiladoss/linkedin
 
 ---
 
 ## 👥 Team & Contributors
 
 ### Core Team
-- **Project Lead** - [Your Name](https://github.com/yourname)
-- **Tech Lead** - [Architect Name](https://github.com)
-- **Product Manager** - [PM Name](https://github.com)
-- **Lead Designer** - [Designer Name](https://github.com)
+- **Project Lead** - [Camila dos Santos](https://github.com/yourname)
+- **Tech Lead** - [Camila dos Santos](https://github.com)
+- **Product Manager** - [Camila dos Santos](https://github.com)
+- **Lead Designer** - [Camila dos Santos](https://github.com)
 
 ### Contributors
 We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
@@ -313,16 +310,6 @@ See [PRIVACY.md](PRIVACY.md) and [SECURITY.md](SECURITY.md) for details.
 
 ---
 
-## 🚀 Quick Links
-
-- **Live Demo:** [grace-hopper.dev](https://grace-hopper.dev)
-- **Repository:** [github.com/your-org/grace-hopper](https://github.com)
-- **Issues:** [Report a bug](https://github.com/your-org/grace-hopper/issues)
-- **Discussions:** [Community chat](https://github.com/your-org/grace-hopper/discussions)
-- **Twitter:** [@GraceHopperAI](https://twitter.com)
-- **Newsletter:** [Subscribe](https://gracehopper.dev/newsletter)
-
----
 
 ## 💡 Project Philosophy
 
