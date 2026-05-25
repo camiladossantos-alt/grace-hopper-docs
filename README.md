@@ -1,14 +1,9 @@
 
-[README.md](https://github.com/user-attachments/files/28201382/README.md)
 <div align="center">
 
 # Grace Hopper
 
 ### AI-First Voice Interview Prep Platform
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Status: In Development](https://img.shields.io/badge/Status-In%20Development-blue.svg)](https://github.com)
-[![Made with Love](https://img.shields.io/badge/Made%20with-❤️-red.svg)](https://github.com)
 
 [Features](#features) • [Getting Started](#getting-started) • [Tech Stack](#tech-stack) • [Roadmap](#roadmap) • [Support](#support)
 
