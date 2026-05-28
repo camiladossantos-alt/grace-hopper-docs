@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif;
+            background: #F5F3F0;
+            padding: 2rem;
+            line-height: 1.5;
+        }
+        .board-title {
+            font-size: 32px;
+            font-weight: 600;
+            color: #2C2C2A;
+            margin-bottom: 1rem;
+            text-align: center;
+            letter-spacing: -0.5px;
+        }
+        .board-subtitle {
+            font-size: 13px;
+            color: #8B8B87;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+        }
+        .section-header {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #BA7517;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .cards-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card {
+            background: white;
+            border: 0.5px solid #D3D1C7;
+            border-radius: 8px;
+            padding: 1.25rem;
+            transition: all 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+            border-color: #D4A373;
+        }
+
+        .card-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #BA7517;
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .card-content {
+            font-size: 13px;
+            color: #3D3D3A;
+            line-height: 1.6;
+        }
+
+        .card-label {
+            display: inline-block;
+            background: #D4A373;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            margin-right: 6px;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #D3D1C7, transparent);
+            margin: 3rem 0;
+        }
+
+        .spotlight {
+            background: #FFF8F1;
+            border: 0.5px solid #E8D9C8;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .spotlight-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #BA7517;
+            margin-bottom: 0.75rem;
+        }
+        .spotlight-content {
+            font-size: 13px;
+            color: #3D3D3A;
+            line-height: 1.7;
+        }
+
+        .badge-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            margin-top: 1rem;
+        }
+        .comparison-table th {
+            background: #F5F3F0;
+            padding: 10px;
+            text-align: left;
+            border-bottom: 0.5px solid #D3D1C7;
+            font-weight: 600;
+            color: #2C2C2A;
+        }
+        .comparison-table td {
+            padding: 10px;
+            border-bottom: 0.5px solid #D3D1C7;
+            color: #3D3D3A;
+        }
+        .comparison-table .grace {
+            background: #FFF8F1;
+            font-weight: 600;
+        }
+
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .metric-card {
+            background: white;
+            border: 0.5px solid #D3D1C7;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 18px;
+            font-weight: 600;
+            color: #D4A373;
+            margin-bottom: 0.5rem;
+        }
+        .metric-label {
+            font-size: 11px;
+            color: #8B8B87;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .oneliner {
+            background: white;
+            border: 2px solid #D4A373;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+        .oneliner-label {
+            font-size: 11px;
+            color: #BA7517;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        .oneliner-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: #2C2C2A;
+            line-height: 1.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="board-title">🎯 Product Vision Board</div>
+    <div class="board-subtitle">Grace Hopper — MVP Phase</div>
+
+    <!-- VISÃO & MISSÃO & WHY NOW -->
+    <div class="section">
+        <div class="section-header">Foundation</div>
+        <div class="cards-row">
+            <div class="card">
+                <div class="card-title">📌 Visão</div>
+                <div class="card-content">
+                    Evoluir para a plataforma de desenvolvimento profissional #1 onde comunicação é o diferencial competitivo mensurado.
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title">🚀 Missão</div>
+                <div class="card-content">
+                    Tornar preparação para entrevistas acessível, humana e contínua através de IA conversacional que simula recrutadores reais.
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title">🕐 Why Now</div>
+                <div class="card-content">
+                    <strong>LLMs viáveis:</strong> Gemini/GPT-4 agora permitem feedback em tempo real<br><br>
+                    <strong>Mercado pronto:</strong> 60% dos candidatos falham<br><br>
+                    <strong>Window:</strong> Antes de Duolingo entrar no espaço
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ICP -->
+    <div class="section">
+        <div class="section-header">Ideal Customer Profile</div>
+        <div class="cards-row">
+            <div class="card">
+                <div class="card-title">👥 Tier 1</div>
+                <div class="card-content">
+                    <strong>Estudantes CS</strong><br>
+                    USP, UNICAMP, PUC<br>
+                    20-25 anos<br>
+                    <em>TAM: 50k</em>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title">👥 Tier 2</div>
+                <div class="card-content">
+                    <strong>Bootcamp Graduates</strong><br>
+                    Ironhack, General Assembly<br>
+                    22-30 anos<br>
+                    <em>TAM: 15k/ano</em>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title">👥 Tier 3</div>
+                <div class="card-content">
+                    <strong>Career Changers</strong><br>
+                    Transição profissional<br>
+                    25-40 anos<br>
+                    <em>TAM: 100k potencial</em>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- JTBD & PROPOSTA -->
+    <div class="section">
+        <div class="section-header">Value Proposition</div>
+        
+        <div class="spotlight">
+            <div class="spotlight-title">💼 JTBD Principal</div>
+            <div class="spotlight-content">
+                "Quero praticar entrevistas sem medo de julgamento, ganhar confiança, e entender exatamente onde preciso melhorar."
+            </div>
+        </div>
+
+        <div class="section-header" style="margin-top: 2rem;">Vs Competidores</div>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Alternativa</th>
+                    <th>Custo</th>
+                    <th>Feedback</th>
+                    <th>Realismo</th>
+                    <th>Speed</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Coaching</strong></td>
+                    <td>$200+/h</td>
+                    <td>⭐⭐⭐⭐⭐</td>
+                    <td>⭐⭐⭐⭐⭐</td>
+                    <td>⭐</td>
+                </tr>
+                <tr>
+                    <td><strong>ChatGPT</strong></td>
+                    <td>Free</td>
+                    <td>⭐⭐</td>
+                    <td>⭐⭐</td>
+                    <td>⭐⭐⭐⭐</td>
+                </tr>
+                <tr>
+                    <td><strong>Duolingo</strong></td>
+                    <td>$15/mês</td>
+                    <td>⭐⭐⭐</td>
+                    <td>⭐⭐</td>
+                    <td>⭐⭐⭐</td>
+                </tr>
+                <tr class="grace">
+                    <td>🏆 <strong>Grace Hopper</strong></td>
+                    <td><strong>Free</strong></td>
+                    <td><strong>⭐⭐⭐⭐</strong></td>
+                    <td><strong>⭐⭐⭐⭐⭐</strong></td>
+                    <td><strong>⭐⭐⭐⭐⭐</strong></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- MOAT & CORE EXPERIENCE -->
+    <div class="section">
+        <div class="section-header">Defensibility & Experience</div>
+        
+        <div class="cards-row">
+            <div class="card">
+                <div class="card-title">🔒 Moat 1: Dados</div>
+                <div class="card-content">
+                    1M+ respostas = dataset único impossível de copiar
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title">🔒 Moat 2: Prompt</div>
+                <div class="card-content">
+                    Feedback hyper-especializado, não genérico
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title">🔒 Moat 3: UX Calm</div>
+                <div class="card-content">
+                    Design humanizado vs corporate ou gamified
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title">🔒 Moat 4: Network</div>
+                <div class="card-content">
+                    Rankings + comunidade (V2) criam lock-in
+                </div>
+            </div>
+        </div>
+
+        <div class="spotlight" style="margin-top: 2rem;">
+            <div class="spotlight-title">✨ Core WOW Experience</div>
+            <div class="spotlight-content">
+                <strong>1.</strong> Usuário vê pergunta real de entrevista<br><br>
+                <strong>2.</strong> Clica "responder" → interface calma<br><br>
+                <strong>3.</strong> Fala naturalmente<br><br>
+                <strong>4.</strong> Em &lt;3 segundos vê: score (78/100), 3 forças, 2 melhorias, 1 frase sugerida<br><br>
+                <strong>5.</strong> Sente: "Ah, entendi exatamente o que mudar"
+            </div>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- NORTH STAR & SUCESSO -->
+    <div class="section">
+        <div class="section-header">North Star & Success Metrics</div>
+        
+        <div class="spotlight">
+            <div class="spotlight-title">📊 Primary Metric</div>
+            <div class="spotlight-content">
+                <strong>"% de usuários com 3+ entrevistas em 7 dias"</strong><br>
+                Target: 35%+ (benchmark: Duolingo ~30%)
+            </div>
+        </div>
+
+        <div class="section-header" style="margin-top: 2rem;">Métricas de Sucesso (Mês 1)</div>
+        <div class="metric-grid">
+            <div class="metric-card">
+                <div class="metric-value">500+</div>
+                <div class="metric-label">Signups</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">60%+</div>
+                <div class="metric-label">1ª Entrevista</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">35%+</div>
+                <div class="metric-label">7-day Retention</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">40+</div>
+                <div class="metric-label">NPS Score</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">12+ min</div>
+                <div class="metric-label">Avg Session</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">&lt;$0.50</div>
+                <div class="metric-label">Custo/User</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- POSITIONING -->
+    <div class="section">
+        <div class="section-header">Market Positioning</div>
+        
+        <div class="oneliner">
+            <div class="oneliner-label">1-Liner Pitch</div>
+            <div class="oneliner-text">
+                Grace Hopper é o AI coach 24/7 que melhora confiança e comunicação em entrevistas com feedback instantâneo, realista e humano.
+            </div>
+        </div>
+
+        <div class="cards-row" style="margin-top: 1.5rem;">
+            <div class="card">
+                <div class="card-title">vs Duolingo</div>
+                <div class="card-content">
+                    "Nós fokamos em entrevistas, não idiomas"
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title">vs Coaching</div>
+                <div class="card-content">
+                    "Nós somos 10x mais acessível, sempre disponível"
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title">vs ChatGPT</div>
+                <div class="card-content">
+                    "Nós simulamos recruiter real, não apenas respondemos"
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
