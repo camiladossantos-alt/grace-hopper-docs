@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grace Hopper - Board 1: Product Vision</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        
+        :root {
+            --primary: #D4A373;
+            --primary-dark: #BA7517;
+            --dark: #2C2C2A;
+            --light: #F5F3F0;
+            --bg-secondary: #E8E5E0;
+            --accent: #7B5B3F;
+            --muted: #8B8B87;
+            --text: #3D3D3A;
+            --border: #D3D1C7;
+            --highlight: #FFF8F1;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --dark: #E8E5E0;
+                --light: #1A1A18;
+                --bg-secondary: #2C2C2A;
+                --accent: #C9B5A0;
+                --muted: #7B7B77;
+                --text: #C2C0B6;
+                --border: #3D3D3A;
+                --highlight: #2C2416;
+            }
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif;
+            background: var(--light);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 2rem;
+        }
+        
+        .board-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .board-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .board-title {
+            font-size: 36px;
+            font-weight: 600;
+            color: var(--dark);
+            letter-spacing: -0.5px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .board-subtitle {
+            font-size: 13px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .board-status {
+            margin-top: 1rem;
+            padding: 12px 16px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            font-size: 12px;
+            color: var(--muted);
+            display: inline-block;
+        }
+        
+        .section {
+            margin-bottom: 4rem;
+        }
+        
+        .section-header {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--primary-dark);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .section-header::before {
+            content: '';
+            width: 3px;
+            height: 16px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+        
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .card {
+            background: white;
+            border: 0.5px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .card {
+                background: var(--bg-secondary);
+            }
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+        }
+        
+        .card-icon {
+            font-size: 24px;
+            margin-bottom: 0.75rem;
+        }
+        
+        .card-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .card-content {
+            font-size: 13px;
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .spotlight {
+            background: var(--highlight);
+            border: 0.5px solid var(--border);
+            border-radius: 8px;
+            padding: 1.75rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .spotlight {
+                background: var(--accent);
+                opacity: 0.9;
+            }
+        }
+        
+        .spotlight-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .spotlight-content {
+            font-size: 13px;
+            color: var(--text);
+            line-height: 1.7;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            margin-right: 6px;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            margin-top: 0.5rem;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 0.5px solid var(--border);
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .comparison-table {
+                background: var(--bg-secondary);
+            }
+        }
+        
+        .comparison-table th {
+            background: var(--bg-secondary);
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 0.5px solid var(--border);
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .comparison-table td {
+            padding: 12px 16px;
+            border-bottom: 0.5px solid var(--border);
+            color: var(--text);
+        }
+        
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .comparison-table .grace {
+            background: var(--highlight);
+            font-weight: 600;
+        }
+        
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .metric-card {
+            background: white;
+            border: 0.5px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .metric-card {
+                background: var(--bg-secondary);
+            }
+        }
+        
+        .metric-value {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .metric-label {
+            font-size: 11px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .oneliner {
+            background: white;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            padding: 1.75rem;
+            margin-top: 1rem;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .oneliner {
+                background: var(--bg-secondary);
+            }
+        }
+        
+        .oneliner-label {
+            font-size: 11px;
+            color: var(--primary-dark);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+        }
+        
+        .oneliner-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--dark);
+            line-height: 1.7;
+        }
+        
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--border), transparent);
+            margin: 3rem 0;
+        }
+        
+        .cta-section {
+            text-align: center;
+            padding: 2rem;
+            background: var(--highlight);
+            border-radius: 8px;
+            margin-top: 4rem;
+        }
+        
+        .cta-text {
+            font-size: 13px;
+            color: var(--text);
+            margin-bottom: 1rem;
+        }
+        
+        .cta-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        
+        .cta-link:hover {
+            background: var(--primary-dark);
+        }
+        
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            .board-title { font-size: 28px; }
+            .cards-grid { grid-template-columns: 1fr; }
+            .comparison-table { font-size: 11px; }
+            .comparison-table th,
+            .comparison-table td { padding: 8px 12px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="board-container">
+        <div class="board-header">
+            <div class="board-title">🎯 Product Vision Board</div>
+            <div class="board-subtitle">Grace Hopper — MVP Phase</div>
+            <div class="board-status">
+                ✓ Board 1 of 6 — Updated May 2026
+            </div>
+        </div>
+
+        <!-- FOUNDATION SECTION -->
+        <div class="section">
+            <div class="section-header">Foundation</div>
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon">📌</div>
+                    <div class="card-title">Visão</div>
+                    <div class="card-content">
+                        Evoluir para a plataforma de desenvolvimento profissional #1 onde comunicação é o diferencial competitivo mensurado.
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🚀</div>
+                    <div class="card-title">Missão</div>
+                    <div class="card-content">
+                        Tornar preparação para entrevistas acessível, humana e contínua através de IA conversacional que simula recrutadores reais.
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🕐</div>
+                    <div class="card-title">Why Now</div>
+                    <div class="card-content">
+                        <strong>LLMs viáveis agora</strong> — Gemini/GPT-4 permitem feedback em tempo real<br><br>
+                        <strong>Mercado pronto</strong> — 60% dos candidatos falham<br><br>
+                        <strong>Janela aberta</strong> — Antes de Duolingo entrar no espaço
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- ICP SECTION -->
+        <div class="section">
+            <div class="section-header">Ideal Customer Profile</div>
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon">👥</div>
+                    <div class="card-title">Tier 1 — Highest Probability</div>
+                    <div class="card-content">
+                        <strong>Estudantes CS</strong><br>
+                        USP, UNICAMP, PUC<br>
+                        20-25 anos<br><br>
+                        <em style="color: var(--muted);">TAM: 50k</em>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">👥</div>
+                    <div class="card-title">Tier 2 — High Potential</div>
+                    <div class="card-content">
+                        <strong>Bootcamp Graduates</strong><br>
+                        Ironhack, General Assembly<br>
+                        22-30 anos<br><br>
+                        <em style="color: var(--muted);">TAM: 15k/ano</em>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">👥</div>
+                    <div class="card-title">Tier 3 — Expansion</div>
+                    <div class="card-content">
+                        <strong>Career Changers</strong><br>
+                        Transição profissional<br>
+                        25-40 anos<br><br>
+                        <em style="color: var(--muted);">TAM: 100k potencial</em>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- VALUE PROPOSITION -->
+        <div class="section">
+            <div class="section-header">Value Proposition</div>
+            
+            <div class="spotlight">
+                <div class="spotlight-title">💼 JTBD Principal</div>
+                <div class="spotlight-content">
+                    "Quero praticar entrevistas sem medo de julgamento, ganhar confiança e entender exatamente onde preciso melhorar."
+                </div>
+            </div>
+
+            <div style="margin-top: 2rem;">
+                <h3 style="font-size: 13px; font-weight: 600; color: var(--primary-dark); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.5px;">Comparativa vs Competidores</h3>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Alternativa</th>
+                            <th>Custo</th>
+                            <th>Feedback</th>
+                            <th>Realismo</th>
+                            <th>Speed</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Coaching</strong></td>
+                            <td>$200+/h</td>
+                            <td>⭐⭐⭐⭐⭐</td>
+                            <td>⭐⭐⭐⭐⭐</td>
+                            <td>⭐</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ChatGPT</strong></td>
+                            <td>Free</td>
+                            <td>⭐⭐</td>
+                            <td>⭐⭐</td>
+                            <td>⭐⭐⭐⭐</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Duolingo</strong></td>
+                            <td>$15/mês</td>
+                            <td>⭐⭐⭐</td>
+                            <td>⭐⭐</td>
+                            <td>⭐⭐⭐</td>
+                        </tr>
+                        <tr class="grace">
+                            <td>🏆 Grace Hopper</td>
+                            <td><strong>Free</strong></td>
+                            <td><strong>⭐⭐⭐⭐</strong></td>
+                            <td><strong>⭐⭐⭐⭐⭐</strong></td>
+                            <td><strong>⭐⭐⭐⭐⭐</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- MOAT & EXPERIENCE -->
+        <div class="section">
+            <div class="section-header">Defensibility & Experience</div>
+            
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon">🔒</div>
+                    <div class="card-title">Moat 1: Dados</div>
+                    <div class="card-content">
+                        1M+ respostas = dataset único impossível de copiar
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🔒</div>
+                    <div class="card-title">Moat 2: Prompt</div>
+                    <div class="card-content">
+                        Feedback hyper-especializado, não genérico
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🔒</div>
+                    <div class="card-title">Moat 3: UX Calm</div>
+                    <div class="card-content">
+                        Design humanizado vs corporate ou gamified
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🔒</div>
+                    <div class="card-title">Moat 4: Network</div>
+                    <div class="card-content">
+                        Rankings + comunidade criam lock-in (V2)
+                    </div>
+                </div>
+            </div>
+
+            <div class="spotlight" style="margin-top: 2rem;">
+                <div class="spotlight-title">✨ Core WOW Experience</div>
+                <div class="spotlight-content">
+                    <strong>1.</strong> Usuário vê pergunta real de entrevista<br><br>
+                    <strong>2.</strong> Clica "responder" → interface calma<br><br>
+                    <strong>3.</strong> Fala naturalmente<br><br>
+                    <strong>4.</strong> Em &lt;3 segundos vê: score (78/100), 3 forças, 2 melhorias, 1 frase sugerida<br><br>
+                    <strong>5.</strong> Sente: "Ah, entendi exatamente o que mudar"
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- NORTH STAR & METRICS -->
+        <div class="section">
+            <div class="section-header">North Star & Success Metrics</div>
+            
+            <div class="spotlight">
+                <div class="spotlight-title">📊 Primary Metric (North Star)</div>
+                <div class="spotlight-content">
+                    <strong>"% de usuários com 3+ entrevistas em 7 dias"</strong><br>
+                    <strong>Target:</strong> 35%+ (benchmark: Duolingo ~30%)
+                </div>
+            </div>
+
+            <h3 style="font-size: 13px; font-weight: 600; color: var(--primary-dark); margin: 2rem 0 1rem; text-transform: uppercase; letter-spacing: 0.5px;">Métricas de Sucesso (Mês 1)</h3>
+            <div class="metric-grid">
+                <div class="metric-card">
+                    <div class="metric-value">500+</div>
+                    <div class="metric-label">Signups</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">60%+</div>
+                    <div class="metric-label">1ª Entrevista</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">35%+</div>
+                    <div class="metric-label">7-day Retention</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">40+</div>
+                    <div class="metric-label">NPS Score</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">12+ min</div>
+                    <div class="metric-label">Avg Session</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">&lt;$0.50</div>
+                    <div class="metric-label">Custo/User</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- POSITIONING -->
+        <div class="section">
+            <div class="section-header">Market Positioning</div>
+            
+            <div class="oneliner">
+                <div class="oneliner-label">1-Liner Pitch</div>
+                <div class="oneliner-text">
+                    Grace Hopper é o AI coach 24/7 que melhora confiança e comunicação em entrevistas com feedback instantâneo, realista e humano.
+                </div>
+            </div>
+
+            <div class="cards-grid" style="margin-top: 2rem;">
+                <div class="card">
+                    <div class="card-icon">vs</div>
+                    <div class="card-title">vs Duolingo</div>
+                    <div class="card-content">
+                        "Nós fokamos em entrevistas, não idiomas"
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">vs</div>
+                    <div class="card-title">vs Coaching</div>
+                    <div class="card-content">
+                        "Nós somos 10x mais acessível, sempre disponível"
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">vs</div>
+                    <div class="card-title">vs ChatGPT</div>
+                    <div class="card-content">
+                        "Nós simulamos recruiter real, não apenas respondemos"
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <div class="cta-text">Pronto para o próximo board?</div>
+            <a href="#" class="cta-link">Abrir Board 2 — User Journey (em breve)</a>
+        </div>
+    </div>
+</body>
+</html>
